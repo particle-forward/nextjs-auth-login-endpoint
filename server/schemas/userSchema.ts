@@ -32,7 +32,7 @@ export const userSchema: SchemaConfig = {
         type: "boolean"
       }
     },
-    required: ["name", "birthday", "height", "sport"],
+    required: ["fullName", "birthday", "height", "sport"],
     additionalProperties: false
   }
 }

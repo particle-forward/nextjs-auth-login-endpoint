@@ -53,7 +53,7 @@ export default withAjv;
 function errorResponse(schemaErrors) {
   const errors = schemaErrors.map((error) => {
     return {
-      path: error.dataPath,
+      path: error.instancePath,
       message: error.message,
     };
   });

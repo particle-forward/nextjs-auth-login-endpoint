@@ -11,43 +11,35 @@ import AuthErrors from "../../server/services/auth/AuthErrors";
 
 const createUser: ApiHandler<NextApiRequest> = withAjv(
   userSchema,
-  withErrorHandler((req, res) => {
-    const {
-      email,
-      password,
-      fullName,
-      birthday,
-      height,
-      sport,
-      newsletter
-    } = req.body;
+  withErrorHandler(async (req, res) => {
+    const {email, password, fullName, birthday, height, sport, newsletter} =
+      req.body;
 
-    return AuthService.createUser({
+    const user = await AuthService.createUser({
       email,
       password,
       fullName,
       birthday,
       height,
       sport,
-      newsletter
-    }).then((payload) => {
-      // create session when account is made
-      return res.json({
-        success: true,
-        // TODO: return some login token and user data
-        user: payload
-      });
+      newsletter,
+    });
+
+    // create session when account is made
+    return res.json({
+      success: true,
+      // TODO: return some login token and user data
+      user,
     });
   }, AuthErrors)
 );
 
-export const handler = (req: NextApiRequest, res: NextApiResponse) => {
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     return createUser(req, res);
-  } else if (req.method === "GET") {
-    // TODO: implement get user
-    // return getAccount(req, res);
-    res.status(200).json({name: 'Test'})
+  } else {
+    return res.status(404).end();
   }
-  return res.status(404).end();
 };
+
+export default handler
