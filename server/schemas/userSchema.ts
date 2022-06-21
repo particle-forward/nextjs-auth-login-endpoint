@@ -8,7 +8,7 @@ export const userSchema: SchemaConfig = {
     properties: {
       email: {type: "string", format: "email", minLength: 6, maxLength: 200}, // TODO: email validation
       password: {type: "string", minLength: 8, maxLength: 200},
-      fullName: {type: "string"},
+      fullName: {type: "string", minLength: 3, maxLength: 200},
       birthday: {
         type: "string",
         format: "date",
@@ -16,7 +16,7 @@ export const userSchema: SchemaConfig = {
       },
       height: {type: "number", multipleOf: 0.1, minimum: 0.5, maximum: 2.5},
       sport: {
-        type: 'string',
+        type: 'string', // could be numbers instead of strings
         enum: [
           "soccer",
           "basketball",

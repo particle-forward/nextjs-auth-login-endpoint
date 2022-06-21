@@ -28,7 +28,7 @@ const createUser: ApiHandler<NextApiRequest> = withAjv(
     // create session when account is made
     return res.json({
       success: true,
-      // TODO: return some login token and user data
+      // TODO: return some login token and user data needed by frontend
       user,
     });
   }, AuthErrors)

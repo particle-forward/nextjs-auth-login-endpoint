@@ -4,9 +4,8 @@ import {
 } from "../../schemas/credentialsSchema";
 import {validateUser} from "../../schemas/userSchema";
 
-export type CreateUserParameters = {
+export type User = {
   "email": string,
-  "password": string,
   "fullName": string,
   "birthday": string,
   "height": number,
@@ -14,9 +13,12 @@ export type CreateUserParameters = {
   "newsletter": boolean
 }
 
+export type CreateUserParameters = User & {
+  password: string;
+}
+
 class AuthService {
   public async createUser(params: CreateUserParameters) {
-
     if (!validateCredentials({...params})) {
       // TODO: log error somewhere
       console.log('validateCredentials.errors', validateCredentials.errors);
@@ -31,9 +33,25 @@ class AuthService {
 
     try {
       // TODO: create user on database and retrieve user data, necessary tokens, etc
-      return new Promise<CreateUserParameters>((resolve) => {
-        // TODO: delete user password from the response
-        return resolve(params);
+      return new Promise<User>((resolve) => {
+        // TODO: get the user attributes and return data without the password
+        const {
+          email,
+          fullName,
+          birthday,
+          height,
+          sport,
+          newsletter
+        } = params
+
+        return resolve({
+          email,
+          fullName,
+          birthday,
+          height,
+          sport,
+          newsletter
+        });
       })
     } catch (error) {
       // TODO: validation checks:
